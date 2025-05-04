@@ -3,12 +3,13 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import SubmitButton from "@/components/ui/submitButton";
-import { signUp } from "@/lib/auth";
+import { signIn } from "@/lib/auth";
+import Link from "next/link";
 import { useActionState } from "react";
 
 
-const SignupForm = () => {
-    const [state, action] = useActionState(signUp, undefined);
+const SigninForm = () => {
+    const [state, action] = useActionState(signIn, undefined);
     return (
         <form action={action}>
             {state?.message && (
@@ -16,13 +17,6 @@ const SignupForm = () => {
             )}
             <div className="flex flex-col gap-2">
 
-                <div className="flex flex-col gap-2">
-                    <Label htmlFor="name">Name</Label>
-                    <Input id="name" name="name" placeholder="John Doe" />
-                </div>
-                {state?.error?.name && (
-                    <p className="text-sm text-red-500">{state.error.name}</p>
-                )}
 
                 <div className="flex flex-col gap-2">
                     <Label htmlFor="email">Email</Label>
@@ -36,22 +30,14 @@ const SignupForm = () => {
                     <Label htmlFor="password">Password</Label>
                     <Input type="password" id="password" name="password" placeholder="********" />
                 </div>
+                <Link className="text-sm underline" href="#">Forgot password?</Link>
                 {state?.error?.password && (
-                    <div className="text-sm text-red-500" >
-                        <p>Password must:</p>
-                        <ul>
-                            {state.error.password.map((error) => (
-                                <li key={error}>{error}</li>
-                            ))}
-                        </ul>
-                    </div>
-                )
-
-                }
-                <SubmitButton>Sign Up</SubmitButton>
+                    <p className="text-sm text-red-500">{state.error.password}</p>
+                )}
+                <SubmitButton>Sign In</SubmitButton>
             </div>
         </form>
     );
 }
 
-export default SignupForm;
+export default SigninForm;
